@@ -621,4 +621,78 @@ function QuizMode() {
             else if (selected.romaji === opt.romaji) cls += " wrong";
           }
           return (
-            <button key={i} className={cls} onClick={() => handleSelec
+            <button key={i} className={cls} onClick={() => handleSelect(opt)} disabled={!!selected}>
+              {opt.romaji}
+            </button>
+          );
+        })}
+      </div>
+      {selected && (
+        <>
+          {selected.romaji !== q.question.romaji && (
+            <div className="meaning-reveal">Jawaban benar: {q.question.romaji} ({q.question.meaning})</div>
+          )}
+          <div className={`feedback ${selected.romaji === q.question.romaji ? "correct" : "wrong"}`}>
+            {selected.romaji === q.question.romaji ? `✓ Benar! — ${q.question.romaji} = ${q.question.meaning}` : `✗ Salah — Coba lagi!`}
+          </div>
+          <button className="next-btn" onClick={handleNext}>
+            {current + 1 < questions.length ? "Soal Berikutnya →" : "Lihat Hasil"}
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ===== APP =====
+export default function App() {
+  const [mode, setMode] = useState("menu");
+
+  return (
+    <>
+      <style>{styles}</style>
+      <div className="app">
+        <div className="header">
+          <div className="logo">日本語 Quiz</div>
+          <div className="subtitle">Hiragana · Katakana · Reading</div>
+        </div>
+        <div className="nav-tabs">
+          <button className={`nav-tab${mode === "menu" ? " active" : ""}`} onClick={() => setMode("menu")}>Home</button>
+          <button className={`nav-tab${mode === "quiz-char" ? " active" : ""}`} onClick={() => setMode("quiz-char")}>Quiz Huruf</button>
+          <button className={`nav-tab${mode === "quiz-read" ? " active" : ""}`} onClick={() => setMode("quiz-read")}>Latihan Baca</button>
+        </div>
+        <div className="main">
+          {mode === "menu" && (
+            <div>
+              <div style={{ textAlign: "center", padding: "20px 0 24px" }}>
+                <div style={{ fontSize: "0.75rem", letterSpacing: "2px", color: "#4a4a6a", textTransform: "uppercase", marginBottom: 8 }}>Pilih mode latihan</div>
+              </div>
+              <div className="mode-select-grid">
+                <div className={`mode-card`} onClick={() => setMode("quiz-char")}>
+                  <div className="mode-card-icon">あア</div>
+                  <div className="mode-card-title">Quiz Huruf</div>
+                  <div className="mode-card-desc">Tebak romaji dari hiragana / katakana. Pilih range 1–5 hingga 1–46.</div>
+                </div>
+                <div className={`mode-card`} onClick={() => setMode("quiz-read")}>
+                  <div className="mode-card-icon">📖</div>
+                  <div className="mode-card-title">Latihan Baca</div>
+                  <div className="mode-card-desc">Baca kata bahasa Jepang, pilih romaji yang benar. 35 soal.</div>
+                </div>
+              </div>
+              <div className="setup-card" style={{ marginTop: 16 }}>
+                <div className="setup-title">Cara Main</div>
+                <div style={{ color: "#5a5a7a", fontSize: "0.8rem", lineHeight: 1.8 }}>
+                  <div>① <b style={{color:"#818cf8"}}>Quiz Huruf</b> — pilih script & range huruf, lalu tebak romaji dari karakter yang muncul.</div>
+                  <div style={{marginTop:8}}>② <b style={{color:"#c084fc"}}>Latihan Baca</b> — kata utuh (mis. わたし) ditampilkan, pilih romaji yang tepat dari 3–5 opsi.</div>
+                  <div style={{marginTop:8}}>③ Setiap sesi 35 soal, hasil skor ditampilkan di akhir.</div>
+                </div>
+              </div>
+            </div>
+          )}
+          {mode === "quiz-char" && <QuizMode />}
+          {mode === "quiz-read" && <ReadingMode />}
+        </div>
+      </div>
+    </>
+  );
+}
