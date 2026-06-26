@@ -131,7 +131,7 @@ const hiraganaWords = [
 { word: "かいしゃ", romaji: "kaisha", meaning: "perusahaan" },
 { word: "こうじょう", romaji: "koujou", meaning: "pabrik" },
 { word: "しやくしょ", romaji: "shiyakusho", meaning: "kantor wali kota" },
-{ word: "ひろば", romaji: "hiroba", meaning: "lapangan / alun-alun" }
+{ word: "ひろば", romaji: "hiroba", meaning: "lapangan / alun-alun" }, 
   // ===== BAGIAN 6 & 7 - HEWAN + KATA KERJA =====
 { word: "いぬ", romaji: "inu", meaning: "anjing" },
 { word: "ねこ", romaji: "neko", meaning: "kucing" },
