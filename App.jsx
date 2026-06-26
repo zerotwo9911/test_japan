@@ -213,7 +213,7 @@ const hiraganaWords = [
 { word: "おどる", romaji: "odoru", meaning: "menari" },
 { word: "しゃしんをとる", romaji: "shashinwotoru", meaning: "memotret" },
 { word: "でんわする", romaji: "denwasuru", meaning: "menelepon" },
-{ word: "りょこうする", romaji: "ryokousuru", meaning: "bepergian" }
+{ word: "りょこうする", romaji: "ryokousuru", meaning: "bepergian" }, 
   // ===== BAGIAN 5 - MAKANAN & MINUMAN =====
   { word: "ごはん", romaji: "gohan", meaning: "nasi / makanan" },
   { word: "あさごはん", romaji: "asagohan", meaning: "sarapan" },
@@ -264,7 +264,7 @@ const hiraganaWords = [
   { word: "しょうゆ", romaji: "shouyu", meaning: "kecap asin" },
   { word: "みそ", romaji: "miso", meaning: "pasta miso" },
   { word: "いただきます", romaji: "itadakimasu", meaning: "selamat makan (sebelum makan)" },
-  { word: "ごちそうさまでした", romaji: "gochisousamadeshita", meaning: "terima kasih atas makanannya" }
+  { word: "ごちそうさまでした", romaji: "gochisousamadeshita", meaning: "terima kasih atas makanannya" }, 
 
   // ===== MAKANAN =====
 { word: "たべもの", romaji: "tabemono", meaning: "Makanan" },
@@ -369,7 +369,7 @@ const hiraganaWords = [
 { word: "まよねーず", romaji: "mayoneezu", meaning: "Mayones" },
 { word: "べんとう", romaji: "bentou", meaning: "Bekal makan" },
 { word: "しょくどう", romaji: "shokudou", meaning: "Kantin" },
-{ word: "れすとらん", romaji: "resutoran", meaning: "Restoran" }
+{ word: "れすとらん", romaji: "resutoran", meaning: "Restoran" }, 
   // ===== SEKOLAH =====
 { word: "がっこう", romaji: "gakkou", meaning: "Sekolah" },
 { word: "きょうしつ", romaji: "kyoushitsu", meaning: "Ruang kelas" },
