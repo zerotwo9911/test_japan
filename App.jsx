@@ -1044,7 +1044,7 @@ function QuizMode() {
 
   const startQuiz = () => {
     const subset = pool.slice(0, range);
-    const qs = shuffle(subset).slice(0, 35).map(item => ({
+    const qs = shuffle(subset).slice(0, 50).map(item => ({
       question: item,
       options: generateOptions(item, subset.length >= 4 ? subset : pool),
     }));
@@ -1177,7 +1177,7 @@ function ReadingMode() {
   };
 
   const startQuiz = () => {
-    const qs = shuffle(wordPool).slice(0, 35).map(item => ({
+    const qs = shuffle(wordPool).slice(0, 50).map(item => ({
       question: item,
       options: buildOptions(item, wordPool),
     }));
@@ -1314,7 +1314,7 @@ export default function App() {
                 <div className={`mode-card`} onClick={() => setMode("quiz-read")}>
                   <div className="mode-card-icon">📖</div>
                   <div className="mode-card-title">Latihan Baca</div>
-                  <div className="mode-card-desc">Baca kata bahasa Jepang, pilih romaji yang benar. 35 soal.</div>
+                  <div className="mode-card-desc">Baca kata bahasa Jepang, pilih romaji yang benar. 50 soal.</div>
                 </div>
               </div>
               <div className="setup-card" style={{ marginTop: 16 }}>
