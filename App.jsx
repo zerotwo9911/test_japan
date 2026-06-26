@@ -629,6 +629,127 @@ function QuizMode() {
       </div>
       {selected && (
         <>
+          <div className={`feedback ${selected.romaji === q.question.romaji ? "correct" : "wrong"}`}>
+            {selected.romaji === q.question.romaji ? "✓ Benar!" : `✗ Salah — Jawaban: ${q.question.romaji}`}
+          </div>
+          <button className="next-btn" onClick={handleNext}>
+            {current + 1 < questions.length ? "Soal Berikutnya →" : "Lihat Hasil"}
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+function ReadingMode() {
+  const [script, setScript] = useState("hiragana");
+  const [started, setStarted] = useState(false);
+  const [questions, setQuestions] = useState([]);
+  const [current, setCurrent] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [score, setScore] = useState(0);
+  const [finished, setFinished] = useState(false);
+
+  const wordPool = script === "hiragana" ? hiraganaWords : katakanaWords;
+
+  const buildOptions = (correct, pool) => {
+    const wrong = shuffle(pool.filter(w => w.romaji !== correct.romaji)).slice(0, 4);
+    // pick 3–4 wrong options, ensure we always have some
+    const wrongSlice = wrong.slice(0, Math.min(4, wrong.length));
+    return shuffle([correct, ...wrongSlice]);
+  };
+
+  const startQuiz = () => {
+    const qs = shuffle(wordPool).slice(0, 35).map(item => ({
+      question: item,
+      options: buildOptions(item, wordPool),
+    }));
+    setQuestions(qs);
+    setCurrent(0);
+    setSelected(null);
+    setScore(0);
+    setFinished(false);
+    setStarted(true);
+  };
+
+  const handleSelect = (opt) => {
+    if (selected) return;
+    setSelected(opt);
+    if (opt.romaji === questions[current].question.romaji) setScore(s => s + 1);
+  };
+
+  const handleNext = () => {
+    if (current + 1 >= questions.length) setFinished(true);
+    else { setCurrent(c => c + 1); setSelected(null); }
+  };
+
+  if (!started) {
+    return (
+      <div>
+        <div className="setup-card">
+          <div className="setup-title">Pilih Script Kata</div>
+          <div className="script-toggle">
+            <button className={`script-btn${script === "hiragana" ? " active" : ""}`} onClick={() => setScript("hiragana")}>
+              ひらがな Hiragana
+            </button>
+            <button className={`script-btn${script === "katakana" ? " active" : ""}`} onClick={() => setScript("katakana")}>
+              カタカナ Katakana
+            </button>
+          </div>
+          <p style={{ color: "#4a4a6a", fontSize: "0.78rem", marginBottom: 16, lineHeight: 1.6 }}>
+            Latihan membaca {wordPool.length} kata bahasa Jepang. Setiap soal tampilkan 3–5 pilihan romaji, pilih yang benar. Total 35 soal.
+          </p>
+          <button className="start-btn" onClick={startQuiz}>Mulai Latihan Baca →</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (finished) {
+    const pct = Math.round((score / questions.length) * 100);
+    return (
+      <div className="result-card">
+        <div className="result-emoji">{pct >= 80 ? "🌸" : pct >= 50 ? "😊" : "💪"}</div>
+        <div className="result-score">{score}/{questions.length}</div>
+        <div className="result-label">{pct}% Benar · Latihan Baca {script === "hiragana" ? "Hiragana" : "Katakana"}</div>
+        <button className="retry-btn" onClick={() => setStarted(false)}>Coba Lagi</button>
+      </div>
+    );
+  }
+
+  const q = questions[current];
+  return (
+    <div>
+      <div className="progress-bar-wrap">
+        <div className="progress-bar-fill" style={{ width: `${((current + 1) / questions.length) * 100}%` }} />
+      </div>
+      <div className="score-row">
+        <span>{current + 1} / {questions.length}</span>
+        <span className="score-badge">✓ {score}</span>
+      </div>
+      <div className="word-card">
+        <div className="word-display">{q.question.word}</div>
+        <div className="word-meaning">({q.question.meaning})</div>
+      </div>
+      <p style={{ color: "#4a4a6a", fontSize: "0.74rem", marginBottom: 10, textAlign: "center", letterSpacing: "1px", textTransform: "uppercase" }}>
+        Pilih bacaan yang benar
+      </p>
+      <div className="word-options">
+        {q.options.map((opt, i) => {
+          let cls = "word-option-btn";
+          if (selected) {
+            if (opt.romaji === q.question.romaji) cls += " correct";
+            else if (selected.romaji === opt.romaji) cls += " wrong";
+          }
+          return (
+            <button key={i} className={cls} onClick={() => handleSelect(opt)} disabled={!!selected}>
+              {opt.romaji}
+            </button>
+          );
+        })}
+      </div>
+      {selected && (
+        <>
           {selected.romaji !== q.question.romaji && (
             <div className="meaning-reveal">Jawaban benar: {q.question.romaji} ({q.question.meaning})</div>
           )}
